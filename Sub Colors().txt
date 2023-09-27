@@ -1,0 +1,29 @@
+Sub Colors()
+'Activate code for all worksheets
+Dim sheet As Worksheet
+For Each sheet In ThisWorkbook.Worksheets
+sheet.Activate
+
+'Find last used row in yearly change column (column 10)
+last_row = Cells(Rows.Count, 10).End(xlUp).Row
+'Set Counter to 2 so that coloring of column begins at Cells(2,10).Value
+Count = 2
+'Set up loop
+For i = 2 To last_row
+    'Set Cells = 0 to be colored white
+    If Cells(i, 10).Value = 0 Then
+        Cells(i, 10).Interior.ColorIndex = 2
+    'Set Cells > 0 to be colored green
+    ElseIf Cells(i, 10).Value > 0 Then
+        Cells(i, 10).Interior.ColorIndex = 4
+    'Set Cells < 0 to be colored red
+    ElseIf Cells(i, 10).Value < 0 Then
+        Cells(i, 10).Interior.ColorIndex = 3
+        
+    End If
+    
+    Next i
+    
+    Next sheet
+    
+End Sub

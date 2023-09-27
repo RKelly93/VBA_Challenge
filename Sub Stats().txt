@@ -1,0 +1,42 @@
+Sub Stats()
+'Activate code for all worksheets
+Dim sheet As Worksheet
+For Each sheet In ThisWorkbook.Worksheets
+sheet.Activate
+
+    last_row = Cells(Rows.Count, 10).End(xlUp).Row
+    'Find highest percent increase using the range function
+    max_percent_increase = WorksheetFunction.Max(Range("K2:K3001"))
+    'Find highest percent increase using the range function
+    max_percent_decrease = WorksheetFunction.Min(Range("K2:K3001"))
+    'Find highest percent increase using the range function
+    max_volume = WorksheetFunction.Max(Range("L2:L3001"))
+    'Print outputs into statistics table
+    Cells(2, 17).Value = max_percent_increase
+
+    Cells(3, 17).Value = max_percent_decrease
+    
+    Cells(4, 17).Value = max_volume
+    
+    For i = 1 To last_row
+    
+        If Cells(i, 11).Value = max_percent_increase Then
+    
+            sheet.Cells(2, 16).Value = sheet.Cells(i, 9).Value
+            
+        ElseIf Cells(i, 11).Value = max_percent_decrease Then
+        
+            Cells(3, 16).Value = sheet.Cells(i, 9).Value
+        
+        ElseIf Cells(i, 12).Value = max_volume Then
+        
+            Cells(4, 16).Value = sheet.Cells(i, 9).Value
+    
+        End If
+    
+    Next i
+
+Next sheet
+    
+End Sub
+

@@ -1,0 +1,59 @@
+Sub Stock_Analysis()
+'Dim worksheet as a variable
+Dim sheet As Worksheet
+'Activate each worksheet with code in this module
+For Each sheet In ThisWorkbook.Worksheets
+sheet.Activate
+
+Cells(1, 9).Value = "Ticker"
+Cells(1, 10).Value = "Yearly Change"
+Cells(1, 11).Value = "Percent Yearly Change"
+Cells(1, 12).Value = "Total Stock Volume"
+Cells(2, 15).Value = "Greatest % Increase"
+Cells(3, 15).Value = "Greatest % Decrease"
+Cells(4, 15).Value = "Greatest Total Volume"
+Cells(1, 16).Value = "Ticker"
+Cells(1, 17).Value = "Value"
+
+Count = 2
+'Find Last Row for loop
+last_row = Cells(Rows.Count, 1).End(xlUp).Row
+'Set Volume Count to 0
+vol = 0
+'Setup Loop
+For i = 2 To last_row
+    
+    If Cells(i - 1, 1).Value <> Cells(i, 1).Value Then
+    'Set Opening Stock Price for a given ticker to return to the last block of values
+        open_year = (Cells(i, 3).Value)
+        
+    End If
+    
+    If Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+    'Set Closing Stock Price for a given ticker
+      close_year = Cells(i, 6).Value
+    'Calculate Stock Price Change
+      change_year = close_year - open_year
+    'Calculate percentage change for stock price
+      percent_change_year = (change_year / open_year) * 100
+    'Print values into Output Table
+      Cells(Count, 11).Value = percent_change_year
+      Cells(Count, 9).Value = Cells(i, 1).Value
+      Cells(Count, 10).Value = change_year
+      Cells(Count, 12).Value = vol
+      'Reset Output Table Counter
+      Count = Count + 1
+      'Reset Volume Counter
+      vol = 0
+        
+      Else
+      'Add Volume from values in Column 7
+      vol = vol + Cells(i, 7).Value
+        
+    End If
+    
+    Next i
+    
+    Next sheet
+
+End Sub
